@@ -1,12 +1,13 @@
-const http = require("http");
+const express = require("express");
+
+const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-const server = http.createServer((request, response) => {
-  response.writeHead(200, { "Content-Type": "text/plain" });
-  response.end("Todo application\n");
+app.get("/", (req, res) => {
+  res.send("<h1>Todo Application</h1>");
 });
 
-server.listen(PORT, () => {
-  console.log(`Server started in port ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
 });
