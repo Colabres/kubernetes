@@ -7,13 +7,18 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const filePath = "/usr/src/app/files/log.txt";
+const counterFile = '/usr/src/app/files/counter.txt';
 
 const getStatus = () => {
-    if (!fs.existsSync(filePath)) {
-        return "No log yet";
-    }
+    const log = fs.existsSync(filePath)
+    ? fs.readFileSync(filePath,"utf8")
+    :  "No log yet" ;
 
-    return fs.readFileSync(filePath, "utf8");
+    const counter = fs.existsSync(counterFile)
+    ? fs.readFileSync(counterFile,"utf8")
+    : "0"
+
+    return `${log}\nPing / Pongs: ${counter}`;
 };
 
 app.get("/", (req, res) => {
