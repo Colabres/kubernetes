@@ -1,18 +1,19 @@
 const express = require("express");
 
+const fs = require("fs");
+
 const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-const id = Math.random().toString(36).substr(2);
+const filePath = "/usr/src/app/files/log.txt";
 
 const getStatus = () => {
-    return `${new Date().toISOString()}: ${id}`;
-};
+    if (!fs.existsSync(filePath)) {
+        return "No log yet";
+    }
 
-const printLog = () => {
-    console.log(getStatus());
-    setTimeout(printLog, 5000);
+    return fs.readFileSync(filePath, "utf8");
 };
 
 app.get("/", (req, res) => {
@@ -23,4 +24,3 @@ app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
 });
 
-printLog();
