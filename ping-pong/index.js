@@ -17,7 +17,7 @@ app.get("/pingpong", (req, res) => {
     }
 
     counter++;
-    fs.writeFileSync(counterFile, String(counter));
+    //fs.writeFileSync(counterFile, String(counter));
     res.send(`Pong ${counter}`);
 });
 
