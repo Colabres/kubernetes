@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: message
+data:
+  # property-like keys; each key maps to a simple value
+  MESSAGE: "I am COOL"  
+
+  # file-like keys
+  information.txt: |
+      This is some very interesting additional information, and you are now enlightened.

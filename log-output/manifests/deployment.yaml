@@ -13,7 +13,13 @@ spec:
       labels:
         app: log-output
     spec:
-      # volumes:
+      volumes:
+      - name: config-data
+        configMap:
+          name: message
+          items:
+          - key: "information.txt"
+            path: "information.txt"
       #   - name: shared-data
       #     persistentVolumeClaim:
       #       claimName: data-claim
@@ -27,6 +33,15 @@ spec:
         - name: log-reader
           image: log-reader
           imagePullPolicy: Never
-          # volumeMounts: 
+          volumeMounts: 
+            - name: config-data
+              mountPath: /usr/src/app/config
+              readOnly: true
           # - name: shared-data
           #   mountPath: /usr/src/app/files
+          env:
+            - name: message
+              valueFrom:
+                configMapKeyRef:
+                  name: message
+                  key: MESSAGE
