@@ -5,14 +5,14 @@ const app = express();
 const fs = require("fs");
 
 const imagePath = "/usr/src/app/files/image.jpg";
-const cacheTime = 10 * 60 * 1000; 
+const cacheTime = process.env.cacheTime; 
 
 const PORT = process.env.PORT || 3000;
 
 const downloadImage = async () => {
     console.log("Downloading a new image");
-
-    const response = await fetch("https://picsum.photos/1200");
+    const IMAGE_URL = process.env.IMAGE_URL;
+    const response = await fetch(IMAGE_URL);
 
     if (!response.ok) {
         throw new Error(`Image download failed: ${response.status}`);
