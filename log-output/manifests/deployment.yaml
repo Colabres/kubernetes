@@ -12,20 +12,20 @@ spec:
       labels:
         app: log-output
     spec:
-      volumes:
-        - name: shared-data
-          persistentVolumeClaim:
-            claimName: data-claim
+      # volumes:
+      #   - name: shared-data
+      #     persistentVolumeClaim:
+      #       claimName: data-claim
       containers:
-        - name: log-writer
-          image: log-writer
-          imagePullPolicy: Never
-          volumeMounts: 
-          - name: shared-data
-            mountPath: /usr/src/app/files
+        # - name: log-writer
+        #   image: log-writer
+        #   imagePullPolicy: Never
+          # volumeMounts: 
+          # - name: shared-data
+          #   mountPath: /usr/src/app/files
         - name: log-reader
           image: log-reader
           imagePullPolicy: Never
-          volumeMounts: 
-          - name: shared-data
-            mountPath: /usr/src/app/files
+          # volumeMounts: 
+          # - name: shared-data
+          #   mountPath: /usr/src/app/files
