@@ -51,16 +51,6 @@ app.get("/", async (req, res) => {
             await downloadImage();
         }
 
-        const todos = [
-            "Learn Kubernetes basics",
-            "Deploy application to cluster",
-            "Configure persistent volumes"
-        ];
-
-        const todoItems = todos
-            .map(todo => `<li>${todo}</li>`)
-            .join("");
-
         res.send(`
             <!DOCTYPE html>
             <html>
@@ -112,20 +102,60 @@ app.get("/", async (req, res) => {
 
                 <img src="/image" alt="Random image">
 
-                <form>
+                <form id="todo-form">
                     <input
+                        id="todo-input"
                         type="text"
                         maxlength="140"
                         placeholder="Enter a new todo (max 140 characters)"
+                        required
                     >
-                    <button type="button">Send</button>
-                </form>
+                    <button type="submit">Send</button>
+                </form> 
+                
 
                 <h2>Todos</h2>
 
-                <ul>
-                    ${todoItems}
-                </ul>
+
+                <ul id="todo-list"></ul>
+                <script>
+                    const form = document.getElementById("todo-form");
+                    const input = document.getElementById("todo-input");
+                    const todoList = document.getElementById("todo-list");
+
+                    const loadTodos = async () => {
+                        const response = await fetch("/todos");
+                        const todos = await response.json();
+
+                        todoList.innerHTML = "";
+
+                        todos.forEach(todo => {
+                            const item = document.createElement("li");
+                            item.textContent = todo;
+                            todoList.appendChild(item);
+                        });
+                    };
+
+                    form.addEventListener("submit", async event => {
+                        event.preventDefault();
+
+                        await fetch("/todos", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                content: input.value
+                            })
+                        });
+
+                        input.value = "";
+
+                        await loadTodos();
+                    });
+
+                    loadTodos();
+                </script>
             </body>
             </html>
         `);
