@@ -45,8 +45,10 @@ app.get("/todos", async (req, res) => {
 
 app.post("/todos", async (req, res) => {
     const todo = req.body.content;
+    console.log(`Todo received: ${todo}`);
 
     if (!todo || todo.length > 140) {
+        console.log(`Todo rejected: ${todo}`);
         return res.status(400).send("Todo must contain 1–140 characters");
     }
 
@@ -56,6 +58,7 @@ app.post("/todos", async (req, res) => {
             [todo]
         );
 
+        console.log(`Todo saved: ${todo}`);
         res.status(201).json(todo);
     } catch (error) {
         console.error(error);
