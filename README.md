@@ -29,3 +29,4 @@
 - [2.6.](https://github.com/Colabres/kubernetes/tree/2.6/todo-app)
 - [2.7.](https://github.com/Colabres/kubernetes/tree/2.7/log-output)
 - [2.8.](https://github.com/Colabres/kubernetes/tree/2.8/todo)
+- [2.9.](https://github.com/Colabres/kubernetes/tree/2.9/todo)
