@@ -24,3 +24,14 @@ spec:
           # volumeMounts:
           # - name: shared-data
           #   mountPath: /usr/src/app/files
+          env:
+          - name: POSTGRES_HOST
+            value: postgres-svc
+          - name: POSTGRES_PORT
+            value: "5432"
+          - name: POSTGRES_USER
+            value: postgres
+          - name: POSTGRES_PASSWORD
+            value: example-password
+          - name: POSTGRES_DB
+            value: postgres

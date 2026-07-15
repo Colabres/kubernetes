@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: StatefulSet
+
+metadata:
+  namespace: exercises
+  name: postgres-stset
+
+spec:
+  serviceName: postgres-svc
+  
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: postgres
+
+  template:
+    metadata:
+      labels:
+        app: postgres
+
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17
+          
+          imagePullPolicy: IfNotPresent
+
+          env:
+            
+            - name: POSTGRES_PASSWORD
+              value: example-password
+
+          
+          ports:
+            - name: postgres
+              containerPort: 5432
+              protocol: TCP
+
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+
+      spec:
+        accessModes:
+          - ReadWriteOnce
+
+        storageClassName: local-path
+
+        resources:
+          requests:
+            storage: 100Mi
+
+---
+
+apiVersion: v1
+kind: Service
+
+metadata:
+  namespace: exercises
+  name: postgres-svc
+
+spec:
+  type: ClusterIP
+  clusterIP: None
+
+  selector:
+    app: postgres
+
+  ports:
+    - name: postgres
+      
+      port: 5432
+
+      protocol: TCP
+      
+      targetPort: 5432
