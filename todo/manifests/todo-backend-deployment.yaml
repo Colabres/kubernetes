@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: project
+  name: todo-backend-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-backend
+  template:
+    metadata:
+      labels:
+        app: todo-backend
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: todo-data-claim
+      containers:
+        - name: todo-backend
+          image: todo-backend
+          imagePullPolicy: Never
+
+          env:
+            - name: PORT
+              value: "3000"
+
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-db-config
+                  key: POSTGRES_HOST
+
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-db-config
+                  key: POSTGRES_PORT
+
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-db-config
+                  key: POSTGRES_USER
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-db-config
+                  key: POSTGRES_PASSWORD
+
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-db-config
+                  key: POSTGRES_DB
+                  
+          volumeMounts: 
+            - name: data
+              mountPath: /usr/src/app/files
+
+
+
