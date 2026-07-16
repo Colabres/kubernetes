@@ -26,13 +26,13 @@ spec:
       containers:
         # - name: log-writer
         #   image: log-writer
-        #   imagePullPolicy: Never
+        #   imagePullPolicy: IfNotPresent
           # volumeMounts: 
           # - name: shared-data
           #   mountPath: /usr/src/app/files
         - name: log-reader
-          image: log-reader
-          imagePullPolicy: Never
+          image: europe-north1-docker.pkg.dev/dwk-gke-502612/dwk-repository/log-reader:v1
+          imagePullPolicy: IfNotPresent
           volumeMounts: 
             - name: config-data
               mountPath: /usr/src/app/config

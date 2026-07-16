@@ -19,7 +19,7 @@ spec:
       #       claimName: data-claim
       containers:
         - name: ping-pong
-          image: europe-north1-docker.pkg.dev/dwk-gke-502612/dwk-repository/ping-pong:v1
+          image: europe-north1-docker.pkg.dev/dwk-gke-502612/dwk-repository/ping-pong:v2
           imagePullPolicy: IfNotPresent
           # volumeMounts:
           # - name: shared-data
