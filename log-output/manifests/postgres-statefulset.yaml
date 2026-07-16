@@ -31,6 +31,9 @@ spec:
             - name: POSTGRES_PASSWORD
               value: example-password
 
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+
           
           ports:
             - name: postgres
@@ -49,7 +52,7 @@ spec:
         accessModes:
           - ReadWriteOnce
 
-        storageClassName: local-path
+        #storageClassName: local-path
 
         resources:
           requests:
