@@ -13,14 +13,14 @@ spec:
       labels:
         app: todo-backend
     spec:
-      volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: todo-data-claim
+      # volumes:
+      #   - name: data
+      #     persistentVolumeClaim:
+      #       claimName: todo-data-claim
       containers:
         - name: todo-backend
-          image: todo-backend
-          imagePullPolicy: Never
+          image: PROJECT/TODO-BACKEND
+          imagePullPolicy: IfNotPresent
 
           env:
             - name: PORT
@@ -56,9 +56,9 @@ spec:
                   name: todo-db-config
                   key: POSTGRES_DB
                   
-          volumeMounts: 
-            - name: data
-              mountPath: /usr/src/app/files
+          # volumeMounts: 
+          #   - name: data
+          #     mountPath: /usr/src/app/files
 
 
 
