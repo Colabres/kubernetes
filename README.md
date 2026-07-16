@@ -31,3 +31,8 @@
 - [2.8.](https://github.com/Colabres/kubernetes/tree/2.8/todo)
 - [2.9.](https://github.com/Colabres/kubernetes/tree/2.9/todo)
 - [2.10.](https://github.com/Colabres/kubernetes/tree/2.10/todo)
+
+### Chapter 4
+
+- [3.1.](https://github.com/Colabres/kubernetes/tree/3.1/log-output)
+- [3.2.](https://github.com/Colabres/kubernetes/tree/3.2/log-output)
