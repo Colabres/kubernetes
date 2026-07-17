@@ -77,12 +77,17 @@ jobs:
 
 
 
-      # - name: Set up Kustomize
-      #   uses: imranismail/setup-kustomize@v3
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v3
 
-      # - name: Deploy
-      #   run: |-
-      #     kustomize edit set image PROJECT/IMAGE=$IMAGE_TAG
-      #     kustomize build . | kubectl apply -f -
-      #     kubectl rollout status deployment $SERVICE
-      #     kubectl get services -o wide
+      - name: Deploy
+        working-directory: ./todo
+        run: |
+          kustomize edit set image PROJECT/TODO-APP=$TODO_APP_IMAGE_TAG
+          kustomize edit set image PROJECT/TODO-BACKEND=$TODO_BACKEND_IMAGE_TAG
+          kustomize edit set image PROJECT/TODO-GENERATOR=$TODO_GENERATOR_IMAGE_TAG
+
+          kustomize build . | kubectl apply -f -
+
+          kubectl rollout status deployment/todo-app-dep -n project
+          kubectl rollout status deployment/todo-backend-dep -n project
