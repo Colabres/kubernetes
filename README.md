@@ -39,3 +39,4 @@
 - [3.3.](https://github.com/Colabres/kubernetes/tree/3.3/log-output)
 - [3.4.](https://github.com/Colabres/kubernetes/tree/3.4/log-output)
 - [3.5.](https://github.com/Colabres/kubernetes/tree/3.5/todo)
+- [3.6.](https://github.com/Colabres/kubernetes/tree/3.6/todo)
