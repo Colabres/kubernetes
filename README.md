@@ -42,3 +42,34 @@
 - [3.6.](https://github.com/Colabres/kubernetes/tree/3.6/todo)
 - [3.7.](https://github.com/Colabres/kubernetes/tree/3.7/todo)
 - [3.8.](https://github.com/Colabres/kubernetes/tree/3.8/todo)
+- [3.9.](https://github.com/Colabres/kubernetes/tree/3.9)
+
+
+
+
+## PostgreSQL in GKE (StatefulSet + PVC)
+
+### Advantages
+- Lower cost.
+- Full control over PostgreSQL configuration.
+- Portable to any Kubernetes cluster.
+
+
+### Disadvantages
+- You are responsible for installation, upgrades and maintenance.
+- You must configure backups yourself.
+- Lower availability.
+- Uses CPU and memory from your Kubernetes cluster.
+
+## Google Cloud SQL (DBaaS)
+
+### Advantages
+- Very little database administration.
+- Automatic backups and easy restore.
+- High availability and failover are built in.
+- Does not consume resources from the Kubernetes cluster.
+
+### Disadvantages
+- Higher cost.
+- Less control over the database server.
+- Tied to Google Cloud services.
