@@ -1,0 +1,92 @@
+apiVersion: batch/v1
+kind: CronJob
+
+metadata:
+  name: todo-backup
+  namespace: project
+
+spec:
+  schedule: "0 0 * * *"
+
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+
+          volumes:
+            - name: backup-data
+              emptyDir: {}
+
+            - name: storage-key
+              secret:
+                secretName: storage-sa-key
+
+          initContainers:
+            - name: create-backup
+              image: postgres:17
+
+              envFrom:
+                - configMapRef:
+                    name: todo-db-config
+
+              command:
+                - /bin/sh
+                - -c
+
+              args:              
+                - |
+                    set -eu
+
+                    echo "Creating PostgreSQL backup"
+
+                    export PGPASSWORD="$POSTGRES_PASSWORD"
+
+                    pg_dump \
+                      -h "$POSTGRES_HOST" \
+                      -p "$POSTGRES_PORT" \
+                      -U "$POSTGRES_USER" \
+                      "$POSTGRES_DB" \
+                      > /backup/backup.sql
+
+                    test -s /backup/backup.sql
+
+                    echo "Backup created"
+                    ls -lh /backup/backup.sql
+
+              volumeMounts:
+                - name: backup-data
+                  mountPath: /backup
+
+          containers:
+            - name: upload-backup
+              image: gcr.io/google.com/cloudsdktool/google-cloud-cli:stable
+
+              command:
+                - /bin/sh
+                - -c
+
+              args:
+                - |
+                  echo "Authenticating with Google Cloud"
+
+                  gcloud auth activate-service-account \
+                    --key-file=/credentials/key.json
+
+                  BACKUP_NAME="todo-backup-$(date -u +%Y-%m-%dT%H-%M-%SZ).sql"
+
+                  echo "Uploading $BACKUP_NAME"
+
+                  gcloud storage cp \
+                    /backup/backup.sql \
+                    "gs://dwk-gke-502612-todo-backups/$BACKUP_NAME"
+
+                  echo "Upload completed"
+
+              volumeMounts:
+                - name: backup-data
+                  mountPath: /backup
+
+                - name: storage-key
+                  mountPath: /credentials
+                  readOnly: true

@@ -11,6 +11,7 @@ resources:
   - manifests/deployment.yaml
   - manifests/service.yaml
   - manifests/generator-cronjob.yaml
+  - manifests/backup-cronjob.yaml
   - manifests/gateway.yaml
   - manifests/route.yaml
 
