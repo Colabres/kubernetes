@@ -20,25 +20,32 @@ spec:
           items:
           - key: "information.txt"
             path: "information.txt"
-      #   - name: shared-data
-      #     persistentVolumeClaim:
-      #       claimName: data-claim
+      - name: shared-data
+        persistentVolumeClaim:
+          claimName: data-claim
       containers:
-        # - name: log-writer
-        #   image: log-writer
-        #   imagePullPolicy: IfNotPresent
-          # volumeMounts: 
-          # - name: shared-data
-          #   mountPath: /usr/src/app/files
+        - name: log-writer
+          image: log-writer
+          imagePullPolicy: Never
+          volumeMounts: 
+          - name: shared-data
+            mountPath: /usr/src/app/files
         - name: log-reader
-          image: europe-north1-docker.pkg.dev/dwk-gke-502612/dwk-repository/log-reader:v1
-          imagePullPolicy: IfNotPresent
+          #image: europe-north1-docker.pkg.dev/dwk-gke-502612/dwk-repository/log-reader:v1
+          image: log-reader
+          imagePullPolicy: Never
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
           volumeMounts: 
             - name: config-data
               mountPath: /usr/src/app/config
               readOnly: true
-          # - name: shared-data
-          #   mountPath: /usr/src/app/files
+            - name: shared-data
+              mountPath: /usr/src/app/files
           env:
             - name: message
               valueFrom:

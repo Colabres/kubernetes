@@ -6,7 +6,7 @@ metadata:
   name: log-output-gateway
 
 spec:
-  gatewayClassName: gke-l7-global-external-managed
+  gatewayClassName: eg
 
   listeners:
     - name: http

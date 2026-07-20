@@ -19,8 +19,15 @@ spec:
       #       claimName: data-claim
       containers:
         - name: ping-pong
-          image: europe-north1-docker.pkg.dev/dwk-gke-502612/dwk-repository/ping-pong:v3
-          imagePullPolicy: IfNotPresent
+          image: ping-pong
+          imagePullPolicy: Never
+          
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
           # volumeMounts:
           # - name: shared-data
           #   mountPath: /usr/src/app/files

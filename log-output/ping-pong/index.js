@@ -30,6 +30,16 @@ const initializeDatabase = async () => {
     console.log("Database initialized");
 };
 
+app.get("/ready", async (req, res) => {
+    try {
+        await pool.query("SELECT 1");
+        res.status(200).send("Ready");
+    } catch (error) {
+        console.error("Readiness check failed:", error.message);
+        res.status(503).send("Database unavailable");
+    }
+});
+
 
 
 app.get("/", async (req, res) => {
@@ -67,13 +77,14 @@ app.get("/pings", async (req, res) => {
     }
 });
 
-initializeDatabase()
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`Server started on port ${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+
+    initializeDatabase()
+        .then(() => {
+            console.log("Database initialized");
+        })
+        .catch((error) => {
+            console.error("Database initialization failed:", error.message);
         });
-    })
-    .catch((error) => {
-        console.error("Database initialization failed:", error);
-        process.exit(1);
-    });
+});

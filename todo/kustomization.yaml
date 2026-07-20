@@ -17,13 +17,13 @@ resources:
 
 images:
   - name: PROJECT/TODO-APP
-    newName: europe-north1-docker.pkg.dev/dwk-gke-502612/dwk-repository/todo-app
-    newTag: v1
+    newName: todo-app
+    newTag: latest
 
   - name: PROJECT/TODO-BACKEND
-    newName: europe-north1-docker.pkg.dev/dwk-gke-502612/dwk-repository/todo-backend
-    newTag: v1
+    newName: todo-backend
+    newTag: latest
 
   - name: PROJECT/TODO-GENERATOR
-    newName: europe-north1-docker.pkg.dev/dwk-gke-502612/dwk-repository/todo-generator
-    newTag: v1
+    newName: todo-generator
+    newTag: latest
