@@ -21,6 +21,13 @@ spec:
         - name: todo-backend
           image: PROJECT/TODO-BACKEND
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
 
           env:
             - name: PORT
