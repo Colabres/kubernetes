@@ -21,6 +21,14 @@ spec:
         - name: todo-backend
           image: PROJECT/TODO-BACKEND
           imagePullPolicy: Never
+          
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+
           resources:
             requests:
               cpu: "100m"

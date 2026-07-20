@@ -70,17 +70,28 @@ app.post("/todos", async (req, res) => {
     }
 });
 
-initializeDatabase()
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`Server started on port ${PORT}`);
-        });
-    })
-    .catch((error) => {
-        console.error("Database initialization failed:", error);
-        process.exit(1);
-    });
+app.get("/ready", async (req, res) => {
+    try {
+        await pool.query("SELECT 1");
 
-// app.listen(PORT, () => {
-//     console.log(`Todo backend started on port ${PORT}`);
-// });
+        res.status(200).send("Ready");
+    } catch (error) {
+        console.error("Readiness check failed:", error.message);
+
+        res.status(503).send("Database unavailable");
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+
+    initializeDatabase()
+        .catch((error) => {
+            console.error(
+                "Database initialization failed:",
+                error.message
+            );
+        });
+});
+
+

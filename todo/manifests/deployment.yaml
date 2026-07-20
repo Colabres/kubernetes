@@ -23,6 +23,14 @@ spec:
         - name: todo-app
           image: PROJECT/TODO-APP
           imagePullPolicy: Never
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            
           resources:
             requests:
               cpu: "100m"

@@ -36,6 +36,31 @@ const imageNeedsRefresh = () => {
     return imageAge >= cacheTime;
 };
 
+let isHealthy = true;
+
+
+
+app.get("/healthz", (req, res) => {
+    if (!isHealthy) {
+        return res.status(500).json({
+            status: "unhealthy"
+        });
+    }
+
+    res.status(200).json({
+        status: "ok"
+    });
+});
+
+app.post("/break", (req, res) => {
+    console.log("BREAK endpoint called");
+    isHealthy = false;
+
+    res.status(200).json({
+        status: "broken"
+    });
+});
+
 
 app.get("/image", (req, res) => {
     if (!fs.existsSync(imagePath)) {
@@ -118,6 +143,9 @@ app.get("/", async (req, res) => {
 
 
                 <ul id="todo-list"></ul>
+                <button id="break-button" type="button">
+                    Break app
+                </button>
                 <script>
                     const form = document.getElementById("todo-form");
                     const input = document.getElementById("todo-input");
@@ -155,7 +183,34 @@ app.get("/", async (req, res) => {
                     });
 
                     loadTodos();
+
+                    const breakButton = document.getElementById("break-button");
+
+                    breakButton.addEventListener("click", async () => {
+                        const response = await fetch("/break", {
+                            method: "POST"
+                        });
+
+                        if (response.ok) {
+                            document.body.innerHTML =
+                                '<div style="' +
+                                    'font-family: Arial, sans-serif;' +
+                                    'text-align: center;' +
+                                    'background: #fde5e5;' +
+                                    'min-height: 100vh;' +
+                                    'padding-top: 80px;' +
+                                    'color: #9d2020;' +
+                                '">' +
+                                    '<h1 style="font-size: 56px;">System Failure</h1>' +
+                                    '<p style="font-size: 28px;">' +
+                                        'The Todo App is currently unhealthy. ' +
+                                        'Please wait for recovery.' +
+                                    '</p>' +
+                                '</div>';
+                        }
+                    });
                 </script>
+
             </body>
             </html>
         `);
