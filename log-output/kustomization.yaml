@@ -4,14 +4,15 @@ kind: Kustomization
 namespace: exercises
 
 resources:
+  - manifests/pingpong-rollout.yaml
+  - manifests/analysistemplate.yaml
   - storage/persistentvolume.yaml
   - storage/persistentvolumeclaim.yaml  
   - manifests/configmap.yaml
   - manifests/gatewayclass.yaml
   - manifests/gateway.yaml
   - manifests/deployment.yaml
-  - manifests/service.yaml
-  - manifests/pingpong-deployment.yaml
+  - manifests/service.yaml  
   - manifests/pingpong-service.yaml
   - manifests/postgres-statefulset.yaml
   - manifests/route.yaml
