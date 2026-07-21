@@ -19,7 +19,8 @@ const initializeDatabase = async () => {
     await pool.query(`
         CREATE TABLE IF NOT EXISTS todos (
             id SERIAL PRIMARY KEY,
-            content TEXT NOT NULL
+            content TEXT NOT NULL,
+            done BOOLEAN NOT NULL DEFAULT FALSE
         )
     `);
 
@@ -33,14 +34,41 @@ app.get("/", (req, res) => {
 app.get("/todos", async (req, res) => {
     try {
         const result = await pool.query(`
-            SELECT content
+            SELECT id,content,done
             FROM todos
             ORDER BY id
         `);
 
-        const todos = result.rows.map(row => row.content);
+        res.json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Database error");
+    }
+});
 
-        res.json(todos);
+app.put("/todos/:id", async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+
+        if (!Number.isInteger(id)) {
+            return res.status(400).send("Invalid todo id");
+        }
+
+        const result = await pool.query(
+            `
+            UPDATE todos
+            SET done = TRUE
+            WHERE id = $1
+            RETURNING id, content, done
+            `,
+            [id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).send("Todo not found");
+        }
+
+        res.json(result.rows[0]);
     } catch (error) {
         console.error(error);
         res.status(500).send("Database error");

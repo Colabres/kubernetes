@@ -151,18 +151,51 @@ app.get("/", async (req, res) => {
                     const input = document.getElementById("todo-input");
                     const todoList = document.getElementById("todo-list");
 
-                    const loadTodos = async () => {
-                        const response = await fetch("/todos");
-                        const todos = await response.json();
+                const loadTodos = async () => {
+                    const response = await fetch("/todos");
 
-                        todoList.innerHTML = "";
+                    if (!response.ok) {
+                        console.error("Failed to load todos");
+                        return;
+                    }
 
-                        todos.forEach(todo => {
-                            const item = document.createElement("li");
-                            item.textContent = todo;
-                            todoList.appendChild(item);
+                    const todos = await response.json();
+
+                    todoList.innerHTML = "";
+
+                    todos.forEach(todo => {
+                        const item = document.createElement("li");
+
+                        const text = document.createElement("span");
+                        text.textContent = todo.content;
+
+                        if (todo.done) {
+                            text.style.textDecoration = "line-through";
+                        }
+
+                        const button = document.createElement("button");
+                        button.textContent = todo.done ? "Done" : "Mark done";
+                        button.disabled = todo.done;
+
+                        button.addEventListener("click", async () => {
+                            const response = await fetch("/todos/" + todo.id, {
+                                method: "PUT"
+                            });
+
+                            if (!response.ok) {
+                                console.error("Failed to update todo");
+                                return;
+                            }
+
+                            await loadTodos();
                         });
-                    };
+
+                        item.appendChild(text);
+                        item.appendChild(button);
+
+                        todoList.appendChild(item);
+                    });
+                };
 
                     form.addEventListener("submit", async event => {
                         event.preventDefault();
