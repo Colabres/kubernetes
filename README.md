@@ -50,6 +50,8 @@
 ### Chapter 5
 
 - [4.1.](https://github.com/Colabres/kubernetes/tree/4.1/log-output)
+- [4.2.](https://github.com/Colabres/kubernetes/tree/4.2/todo)
+- [4.3.](https://github.com/Colabres/kubernetes/tree/4.3/todo)
 
 ## PostgreSQL in GKE (StatefulSet + PVC)
 
@@ -77,3 +79,14 @@
 - Higher cost.
 - Less control over the database server.
 - Tied to Google Cloud services.
+
+### Execise 4.3
+
+```promql
+count(
+  kube_pod_info{
+    namespace="monitoring",
+    created_by_kind="StatefulSet"
+  }
+)
+```
