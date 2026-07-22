@@ -9,6 +9,7 @@ resources:
   - manifests/todo-backend-deployment.yaml
   - manifests/todo-backend-service.yaml
   - manifests/deployment.yaml
+  - manifests/todo-broadcaster-dep.yaml
   - manifests/service.yaml
   - manifests/generator-cronjob.yaml
   - manifests/backup-cronjob.yaml
@@ -27,3 +28,6 @@ images:
   - name: PROJECT/TODO-GENERATOR
     newName: todo-generator
     newTag: latest
+
+  - name: PROJECT/BROADCASTER
+    newName: todo-broadcaster

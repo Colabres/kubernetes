@@ -41,6 +41,9 @@ spec:
             - name: PORT
               value: "3000"
 
+            - name: NATS_URL
+              value: nats://my-nats.nats.svc.cluster.local:4222
+
             - name: POSTGRES_HOST
               valueFrom:
                 configMapKeyRef:

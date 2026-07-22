@@ -1,5 +1,5 @@
 {
-  "name": "todo-backend",
+  "name": "broadcaster",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,8 +12,6 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "express": "^5.2.1",
-    "nats": "^2.29.3",
-    "pg": "^8.22.0"
+    "nats": "^2.29.3"
   }
 }

@@ -1,9 +1,20 @@
 const express = require("express");
 const { Pool } = require("pg");
+const { connect, StringCodec } = require("nats");
 
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+
+const NATS_URL =
+    process.env.NATS_URL ||
+    "nats://my-nats.nats.svc.cluster.local:4222";
+
+const NATS_SUBJECT = "todos.events";
+
+let natsConnection;
+
+const stringCodec = StringCodec();
 
 const pool = new Pool({
     host: process.env.POSTGRES_HOST,
@@ -25,6 +36,28 @@ const initializeDatabase = async () => {
     `);
 
     console.log("Database initialized");
+};
+
+const connectToNats = async () => {
+    natsConnection = await connect({
+        servers: NATS_URL
+    });
+
+    console.log(`Connected to NATS at ${NATS_URL}`);
+};
+
+const publishTodoEvent = (event) => {
+    if (!natsConnection) {
+        console.error("Cannot publish: NATS is not connected");
+        return;
+    }
+
+    natsConnection.publish(
+        NATS_SUBJECT,
+        stringCodec.encode(JSON.stringify(event))
+    );
+
+    console.log(`Published NATS event: ${event.type}`);
 };
 
 app.get("/", (req, res) => {
@@ -68,7 +101,15 @@ app.put("/todos/:id", async (req, res) => {
             return res.status(404).send("Todo not found");
         }
 
-        res.json(result.rows[0]);
+        const updatedTodo = result.rows[0];
+
+        publishTodoEvent({
+            type: "todo.updated",
+            message: `Todo marked as done: ${updatedTodo.content}`,
+            todo: updatedTodo
+        });
+
+        res.json(updatedTodo);
     } catch (error) {
         console.error(error);
         res.status(500).send("Database error");
@@ -85,13 +126,25 @@ app.post("/todos", async (req, res) => {
     }
 
     try {
-        await pool.query(
-            `INSERT INTO todos (content) VALUES ($1)`,
+        const result = await pool.query(
+            `
+            INSERT INTO todos (content)
+            VALUES ($1)
+            RETURNING id, content, done
+            `,
             [todo]
         );
 
+        const createdTodo = result.rows[0];
+
+        publishTodoEvent({
+            type: "todo.created",
+            message: `Todo created: ${createdTodo.content}`,
+            todo: createdTodo
+        });
+
         console.log(`Todo saved: ${todo}`);
-        res.status(201).json(todo);
+        res.status(201).json(createdTodo);
     } catch (error) {
         console.error(error);
         res.status(500).send("Database error");
@@ -117,6 +170,14 @@ app.listen(PORT, () => {
         .catch((error) => {
             console.error(
                 "Database initialization failed:",
+                error.message
+            );
+        });
+
+    connectToNats()
+        .catch((error) => {
+            console.error(
+                "NATS connection failed:",
                 error.message
             );
         });

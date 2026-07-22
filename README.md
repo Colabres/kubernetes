@@ -53,6 +53,7 @@
 - [4.2.](https://github.com/Colabres/kubernetes/tree/4.2/todo)
 - [4.3.](https://github.com/Colabres/kubernetes/tree/4.3/todo)
 - [4.4.](https://github.com/Colabres/kubernetes/tree/4.4/log-output)
+- [4.5.](https://github.com/Colabres/kubernetes/tree/4.5/todo)
 
 ## PostgreSQL in GKE (StatefulSet + PVC)
 
