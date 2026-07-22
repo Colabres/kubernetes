@@ -16,7 +16,7 @@ spec:
       containers:
         - name: broadcaster
           image: PROJECT/BROADCASTER
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
 
           env:
             - name: NATS_URL

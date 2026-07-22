@@ -55,6 +55,7 @@
 - [4.4.](https://github.com/Colabres/kubernetes/tree/4.4/log-output)
 - [4.5.](https://github.com/Colabres/kubernetes/tree/4.5/todo)
 - [4.6.](https://github.com/Colabres/kubernetes/tree/4.6/todo/broadcaster)
+- [4.7.](https://github.com/Colabres/kubernetes/tree/4.7/log-output)
 
 ## PostgreSQL in GKE (StatefulSet + PVC)
 

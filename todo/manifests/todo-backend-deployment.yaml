@@ -20,7 +20,7 @@ spec:
       containers:
         - name: todo-backend
           image: PROJECT/TODO-BACKEND
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           
           readinessProbe:
             httpGet:

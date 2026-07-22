@@ -15,7 +15,7 @@ spec:
           containers:
             - name: todo-generator
               image: PROJECT/TODO-GENERATOR
-              imagePullPolicy: Never
+              imagePullPolicy: IfNotPresent
 
           
           restartPolicy: Never
