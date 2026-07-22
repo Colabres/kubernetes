@@ -22,13 +22,13 @@ resources:
 images:
 - name: PROJECT/BROADCASTER
   newName: ghcr.io/colabres/todo-broadcaster
-  newTag: 131f8b0f3a5eda9453832aa83e53a25e943cc289
+  newTag: 6dd2f8c13f979be52ad492a3f69de6bebad1a3a2
 - name: PROJECT/TODO-APP
   newName: ghcr.io/colabres/todo-app
-  newTag: 131f8b0f3a5eda9453832aa83e53a25e943cc289
+  newTag: 6dd2f8c13f979be52ad492a3f69de6bebad1a3a2
 - name: PROJECT/TODO-BACKEND
   newName: ghcr.io/colabres/todo-backend
-  newTag: 131f8b0f3a5eda9453832aa83e53a25e943cc289
+  newTag: 6dd2f8c13f979be52ad492a3f69de6bebad1a3a2
 - name: PROJECT/TODO-GENERATOR
   newName: ghcr.io/colabres/todo-generator
-  newTag: 131f8b0f3a5eda9453832aa83e53a25e943cc289
+  newTag: 6dd2f8c13f979be52ad492a3f69de6bebad1a3a2
