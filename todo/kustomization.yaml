@@ -2,32 +2,33 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - manifests/namespace.yaml
-  - manifests/config.yaml
-  - manifests/persistentvolumeclaim.yaml
-  - manifests/postgres-statefulset.yaml
-  - manifests/todo-backend-deployment.yaml
-  - manifests/todo-backend-service.yaml
-  - manifests/deployment.yaml
-  - manifests/todo-broadcaster-dep.yaml
-  - manifests/service.yaml
-  - manifests/generator-cronjob.yaml
-  - manifests/backup-cronjob.yaml
-  - manifests/gateway.yaml
-  - manifests/route.yaml
+- manifests/namespace.yaml
+- manifests/config.yaml
+- manifests/persistentvolumeclaim.yaml
+- manifests/postgres-statefulset.yaml
+- manifests/todo-backend-deployment.yaml
+- manifests/todo-backend-service.yaml
+- manifests/deployment.yaml
+- manifests/todo-broadcaster-dep.yaml
+- manifests/service.yaml
+- manifests/generator-cronjob.yaml
+- manifests/backup-cronjob.yaml
+- manifests/gateway.yaml
+- manifests/route.yaml
+
+
+
 
 images:
-  - name: PROJECT/TODO-APP
-    newName: todo-app
-    newTag: latest
-
-  - name: PROJECT/TODO-BACKEND
-    newName: todo-backend
-    newTag: latest
-
-  - name: PROJECT/TODO-GENERATOR
-    newName: todo-generator
-    newTag: latest
-
-  - name: PROJECT/BROADCASTER
-    newName: todo-broadcaster
+- name: PROJECT/BROADCASTER
+  newName: ghcr.io/colabres/todo-broadcaster
+  newTag: 131f8b0f3a5eda9453832aa83e53a25e943cc289
+- name: PROJECT/TODO-APP
+  newName: ghcr.io/colabres/todo-app
+  newTag: 131f8b0f3a5eda9453832aa83e53a25e943cc289
+- name: PROJECT/TODO-BACKEND
+  newName: ghcr.io/colabres/todo-backend
+  newTag: 131f8b0f3a5eda9453832aa83e53a25e943cc289
+- name: PROJECT/TODO-GENERATOR
+  newName: ghcr.io/colabres/todo-generator
+  newTag: 131f8b0f3a5eda9453832aa83e53a25e943cc289
