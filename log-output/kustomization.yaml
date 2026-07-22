@@ -4,15 +4,25 @@ kind: Kustomization
 namespace: exercises
 
 resources:
-  - manifests/pingpong-rollout.yaml
-  - manifests/analysistemplate.yaml
-  - storage/persistentvolume.yaml
-  - storage/persistentvolumeclaim.yaml  
-  - manifests/configmap.yaml
-  - manifests/gatewayclass.yaml
-  - manifests/gateway.yaml
-  - manifests/deployment.yaml
-  - manifests/service.yaml  
-  - manifests/pingpong-service.yaml
-  - manifests/postgres-statefulset.yaml
-  - manifests/route.yaml
+- manifests/pingpong-rollout.yaml
+- manifests/analysistemplate.yaml
+- storage/persistentvolume.yaml
+- storage/persistentvolumeclaim.yaml
+- manifests/configmap.yaml
+- manifests/gatewayclass.yaml
+- manifests/gateway.yaml
+- manifests/deployment.yaml
+- manifests/service.yaml
+- manifests/pingpong-service.yaml
+- manifests/postgres-statefulset.yaml
+- manifests/route.yaml
+images:
+- name: log-reader
+  newName: ghcr.io/colabres/log-reader
+  newTag: 205e2e558df041415201c138587f717b3d97e80d
+- name: log-writer
+  newName: ghcr.io/colabres/log-writer
+  newTag: 205e2e558df041415201c138587f717b3d97e80d
+- name: ping-pong
+  newName: ghcr.io/colabres/ping-pong
+  newTag: 205e2e558df041415201c138587f717b3d97e80d
