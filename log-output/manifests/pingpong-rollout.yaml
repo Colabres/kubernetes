@@ -28,7 +28,7 @@ spec:
       containers:
         - name: ping-pong
           image: ping-pong:v3
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
 
           readinessProbe:
             httpGet:
